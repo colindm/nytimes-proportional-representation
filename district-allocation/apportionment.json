@@ -1,0 +1,738 @@
+[
+  {
+    "State": "California",
+    "Population": 39538223,
+    "Representatives": 71,
+    "Districts": 12,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 11
+    },
+    "DistrictPopulations": {
+      "5": 2784382,
+      "6": 3341258
+    },
+    "PopulationPerMember": 556876,
+    "AveragePopulationPerDistrict": 3294852
+  },
+  {
+    "State": "Texas",
+    "Population": 29145505,
+    "Representatives": 52,
+    "Districts": 9,
+    "DistrictSizes": {
+      "5": 2,
+      "6": 7
+    },
+    "DistrictPopulations": {
+      "5": 2802452,
+      "6": 3362943
+    },
+    "PopulationPerMember": 560490,
+    "AveragePopulationPerDistrict": 3238389
+  },
+  {
+    "State": "Florida",
+    "Population": 21538187,
+    "Representatives": 39,
+    "Districts": 7,
+    "DistrictSizes": {
+      "5": 3,
+      "6": 4
+    },
+    "DistrictPopulations": {
+      "5": 2761306,
+      "6": 3313567
+    },
+    "PopulationPerMember": 552261,
+    "AveragePopulationPerDistrict": 3076884
+  },
+  {
+    "State": "New York",
+    "Population": 20201249,
+    "Representatives": 36,
+    "Districts": 6,
+    "DistrictSizes": {
+      "6": 6
+    },
+    "DistrictPopulations": {
+      "6": 3366875
+    },
+    "PopulationPerMember": 561146,
+    "AveragePopulationPerDistrict": 3366875
+  },
+  {
+    "State": "Illinois",
+    "Population": 12812508,
+    "Representatives": 23,
+    "Districts": 4,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 3
+    },
+    "DistrictPopulations": {
+      "5": 2785328,
+      "6": 3342393
+    },
+    "PopulationPerMember": 557066,
+    "AveragePopulationPerDistrict": 3203127
+  },
+  {
+    "State": "Pennsylvania",
+    "Population": 13002700,
+    "Representatives": 23,
+    "Districts": 4,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 3
+    },
+    "DistrictPopulations": {
+      "5": 2826674,
+      "6": 3392009
+    },
+    "PopulationPerMember": 565335,
+    "AveragePopulationPerDistrict": 3250675
+  },
+  {
+    "State": "Ohio",
+    "Population": 11799448,
+    "Representatives": 21,
+    "Districts": 4,
+    "DistrictSizes": {
+      "5": 3,
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "5": 2809392,
+      "6": 3371271
+    },
+    "PopulationPerMember": 561878,
+    "AveragePopulationPerDistrict": 2949862
+  },
+  {
+    "State": "Georgia",
+    "Population": 10711908,
+    "Representatives": 19,
+    "Districts": 3,
+    "DistrictSizes": {
+      "6": 3
+    },
+    "DistrictPopulations": {
+      "6": 3382708
+    },
+    "PopulationPerMember": 563785,
+    "AveragePopulationPerDistrict": 3570636
+  },
+  {
+    "State": "North Carolina",
+    "Population": 10439388,
+    "Representatives": 19,
+    "Districts": 3,
+    "DistrictSizes": {
+      "6": 3
+    },
+    "DistrictPopulations": {
+      "6": 3296649
+    },
+    "PopulationPerMember": 549441,
+    "AveragePopulationPerDistrict": 3479796
+  },
+  {
+    "State": "Michigan",
+    "Population": 10077331,
+    "Representatives": 18,
+    "Districts": 3,
+    "DistrictSizes": {
+      "6": 3
+    },
+    "DistrictPopulations": {
+      "6": 3359110
+    },
+    "PopulationPerMember": 559852,
+    "AveragePopulationPerDistrict": 3359110
+  },
+  {
+    "State": "New Jersey",
+    "Population": 9288994,
+    "Representatives": 17,
+    "Districts": 3,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 2
+    },
+    "DistrictPopulations": {
+      "5": 2732057,
+      "6": 3278468
+    },
+    "PopulationPerMember": 546411,
+    "AveragePopulationPerDistrict": 3096331
+  },
+  {
+    "State": "Virginia",
+    "Population": 8631393,
+    "Representatives": 16,
+    "Districts": 3,
+    "DistrictSizes": {
+      "5": 2,
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "5": 2697310,
+      "6": 3236772
+    },
+    "PopulationPerMember": 539462,
+    "AveragePopulationPerDistrict": 2877131
+  },
+  {
+    "State": "Washington",
+    "Population": 7705281,
+    "Representatives": 14,
+    "Districts": 2,
+    "DistrictSizes": {
+      "6": 2
+    },
+    "DistrictPopulations": {
+      "6": 3302263
+    },
+    "PopulationPerMember": 550377,
+    "AveragePopulationPerDistrict": 3852641
+  },
+  {
+    "State": "Arizona",
+    "Population": 7151502,
+    "Representatives": 13,
+    "Districts": 2,
+    "DistrictSizes": {
+      "6": 2
+    },
+    "DistrictPopulations": {
+      "6": 3300693
+    },
+    "PopulationPerMember": 550116,
+    "AveragePopulationPerDistrict": 3575751
+  },
+  {
+    "State": "Massachusetts",
+    "Population": 7029917,
+    "Representatives": 13,
+    "Districts": 2,
+    "DistrictSizes": {
+      "6": 2
+    },
+    "DistrictPopulations": {
+      "6": 3244577
+    },
+    "PopulationPerMember": 540763,
+    "AveragePopulationPerDistrict": 3514959
+  },
+  {
+    "State": "Indiana",
+    "Population": 6785528,
+    "Representatives": 12,
+    "Districts": 2,
+    "DistrictSizes": {
+      "6": 2
+    },
+    "DistrictPopulations": {
+      "6": 3392764
+    },
+    "PopulationPerMember": 565461,
+    "AveragePopulationPerDistrict": 3392764
+  },
+  {
+    "State": "Tennessee",
+    "Population": 6910840,
+    "Representatives": 12,
+    "Districts": 2,
+    "DistrictSizes": {
+      "6": 2
+    },
+    "DistrictPopulations": {
+      "6": 3455420
+    },
+    "PopulationPerMember": 575903,
+    "AveragePopulationPerDistrict": 3455420
+  },
+  {
+    "State": "Maryland",
+    "Population": 6177224,
+    "Representatives": 11,
+    "Districts": 2,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "5": 2807829,
+      "6": 3369395
+    },
+    "PopulationPerMember": 561566,
+    "AveragePopulationPerDistrict": 3088612
+  },
+  {
+    "State": "Missouri",
+    "Population": 6154913,
+    "Representatives": 11,
+    "Districts": 2,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "5": 2797688,
+      "6": 3357225
+    },
+    "PopulationPerMember": 559538,
+    "AveragePopulationPerDistrict": 3077457
+  },
+  {
+    "State": "Wisconsin",
+    "Population": 5893718,
+    "Representatives": 11,
+    "Districts": 2,
+    "DistrictSizes": {
+      "5": 1,
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "5": 2678963,
+      "6": 3214755
+    },
+    "PopulationPerMember": 535793,
+    "AveragePopulationPerDistrict": 2946859
+  },
+  {
+    "State": "Colorado",
+    "Population": 5773714,
+    "Representatives": 10,
+    "Districts": 2,
+    "DistrictSizes": {
+      "5": 2
+    },
+    "DistrictPopulations": {
+      "5": 2886857
+    },
+    "PopulationPerMember": 577371,
+    "AveragePopulationPerDistrict": 2886857
+  },
+  {
+    "State": "Minnesota",
+    "Population": 5706494,
+    "Representatives": 10,
+    "Districts": 2,
+    "DistrictSizes": {
+      "5": 2
+    },
+    "DistrictPopulations": {
+      "5": 2853247
+    },
+    "PopulationPerMember": 570649,
+    "AveragePopulationPerDistrict": 2853247
+  },
+  {
+    "State": "Alabama",
+    "Population": 5024279,
+    "Representatives": 9,
+    "Districts": 2,
+    "DistrictSizes": {
+      "4": 1,
+      "5": 1
+    },
+    "DistrictPopulations": {
+      "4": 2233013,
+      "5": 2791266
+    },
+    "PopulationPerMember": 558253,
+    "AveragePopulationPerDistrict": 2512140
+  },
+  {
+    "State": "South Carolina",
+    "Population": 5118425,
+    "Representatives": 9,
+    "Districts": 2,
+    "DistrictSizes": {
+      "4": 1,
+      "5": 1
+    },
+    "DistrictPopulations": {
+      "4": 2274856,
+      "5": 2843569
+    },
+    "PopulationPerMember": 568714,
+    "AveragePopulationPerDistrict": 2559213
+  },
+  {
+    "State": "Kentucky",
+    "Population": 4505836,
+    "Representatives": 8,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3379377
+    },
+    "PopulationPerMember": 563230,
+    "AveragePopulationPerDistrict": 4505836
+  },
+  {
+    "State": "Louisiana",
+    "Population": 4657757,
+    "Representatives": 8,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3493318
+    },
+    "PopulationPerMember": 582220,
+    "AveragePopulationPerDistrict": 4657757
+  },
+  {
+    "State": "Oregon",
+    "Population": 4237256,
+    "Representatives": 8,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3177942
+    },
+    "PopulationPerMember": 529657,
+    "AveragePopulationPerDistrict": 4237256
+  },
+  {
+    "State": "Oklahoma",
+    "Population": 3959353,
+    "Representatives": 7,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3393731
+    },
+    "PopulationPerMember": 565622,
+    "AveragePopulationPerDistrict": 3959353
+  },
+  {
+    "State": "Connecticut",
+    "Population": 3605944,
+    "Representatives": 6,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3605944
+    },
+    "PopulationPerMember": 600991,
+    "AveragePopulationPerDistrict": 3605944
+  },
+  {
+    "State": "Iowa",
+    "Population": 3190369,
+    "Representatives": 6,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3190369
+    },
+    "PopulationPerMember": 531728,
+    "AveragePopulationPerDistrict": 3190369
+  },
+  {
+    "State": "Nevada",
+    "Population": 3104614,
+    "Representatives": 6,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3104614
+    },
+    "PopulationPerMember": 517436,
+    "AveragePopulationPerDistrict": 3104614
+  },
+  {
+    "State": "Utah",
+    "Population": 3271616,
+    "Representatives": 6,
+    "Districts": 1,
+    "DistrictSizes": {
+      "6": 1
+    },
+    "DistrictPopulations": {
+      "6": 3271616
+    },
+    "PopulationPerMember": 545269,
+    "AveragePopulationPerDistrict": 3271616
+  },
+  {
+    "State": "Arkansas",
+    "Population": 3011524,
+    "Representatives": 5,
+    "Districts": 1,
+    "DistrictSizes": {
+      "5": 1
+    },
+    "DistrictPopulations": {
+      "5": 3011524
+    },
+    "PopulationPerMember": 602305,
+    "AveragePopulationPerDistrict": 3011524
+  },
+  {
+    "State": "Kansas",
+    "Population": 2937880,
+    "Representatives": 5,
+    "Districts": 1,
+    "DistrictSizes": {
+      "5": 1
+    },
+    "DistrictPopulations": {
+      "5": 2937880
+    },
+    "PopulationPerMember": 587576,
+    "AveragePopulationPerDistrict": 2937880
+  },
+  {
+    "State": "Mississippi",
+    "Population": 2961279,
+    "Representatives": 5,
+    "Districts": 1,
+    "DistrictSizes": {
+      "5": 1
+    },
+    "DistrictPopulations": {
+      "5": 2961279
+    },
+    "PopulationPerMember": 592256,
+    "AveragePopulationPerDistrict": 2961279
+  },
+  {
+    "State": "Nebraska",
+    "Population": 1961504,
+    "Representatives": 4,
+    "Districts": 1,
+    "DistrictSizes": {
+      "4": 1
+    },
+    "DistrictPopulations": {
+      "4": 1961504
+    },
+    "PopulationPerMember": 490376,
+    "AveragePopulationPerDistrict": 1961504
+  },
+  {
+    "State": "New Mexico",
+    "Population": 2117522,
+    "Representatives": 4,
+    "Districts": 1,
+    "DistrictSizes": {
+      "4": 1
+    },
+    "DistrictPopulations": {
+      "4": 2117522
+    },
+    "PopulationPerMember": 529381,
+    "AveragePopulationPerDistrict": 2117522
+  },
+  {
+    "State": "Hawaii",
+    "Population": 1455271,
+    "Representatives": 3,
+    "Districts": 1,
+    "DistrictSizes": {
+      "3": 1
+    },
+    "DistrictPopulations": {
+      "3": 1455271
+    },
+    "PopulationPerMember": 485090,
+    "AveragePopulationPerDistrict": 1455271
+  },
+  {
+    "State": "Idaho",
+    "Population": 1839106,
+    "Representatives": 3,
+    "Districts": 1,
+    "DistrictSizes": {
+      "3": 1
+    },
+    "DistrictPopulations": {
+      "3": 1839106
+    },
+    "PopulationPerMember": 613035,
+    "AveragePopulationPerDistrict": 1839106
+  },
+  {
+    "State": "New Hampshire",
+    "Population": 1377529,
+    "Representatives": 3,
+    "Districts": 1,
+    "DistrictSizes": {
+      "3": 1
+    },
+    "DistrictPopulations": {
+      "3": 1377529
+    },
+    "PopulationPerMember": 459176,
+    "AveragePopulationPerDistrict": 1377529
+  },
+  {
+    "State": "West Virginia",
+    "Population": 1793716,
+    "Representatives": 3,
+    "Districts": 1,
+    "DistrictSizes": {
+      "3": 1
+    },
+    "DistrictPopulations": {
+      "3": 1793716
+    },
+    "PopulationPerMember": 597905,
+    "AveragePopulationPerDistrict": 1793716
+  },
+  {
+    "State": "Delaware",
+    "Population": 989948,
+    "Representatives": 2,
+    "Districts": 1,
+    "DistrictSizes": {
+      "2": 1
+    },
+    "DistrictPopulations": {
+      "2": 989948
+    },
+    "PopulationPerMember": 494974,
+    "AveragePopulationPerDistrict": 989948
+  },
+  {
+    "State": "Maine",
+    "Population": 1362359,
+    "Representatives": 2,
+    "Districts": 1,
+    "DistrictSizes": {
+      "2": 1
+    },
+    "DistrictPopulations": {
+      "2": 1362359
+    },
+    "PopulationPerMember": 681180,
+    "AveragePopulationPerDistrict": 1362359
+  },
+  {
+    "State": "Montana",
+    "Population": 1084225,
+    "Representatives": 2,
+    "Districts": 1,
+    "DistrictSizes": {
+      "2": 1
+    },
+    "DistrictPopulations": {
+      "2": 1084225
+    },
+    "PopulationPerMember": 542113,
+    "AveragePopulationPerDistrict": 1084225
+  },
+  {
+    "State": "Rhode Island",
+    "Population": 1097379,
+    "Representatives": 2,
+    "Districts": 1,
+    "DistrictSizes": {
+      "2": 1
+    },
+    "DistrictPopulations": {
+      "2": 1097379
+    },
+    "PopulationPerMember": 548690,
+    "AveragePopulationPerDistrict": 1097379
+  },
+  {
+    "State": "South Dakota",
+    "Population": 886667,
+    "Representatives": 2,
+    "Districts": 1,
+    "DistrictSizes": {
+      "2": 1
+    },
+    "DistrictPopulations": {
+      "2": 886667
+    },
+    "PopulationPerMember": 443334,
+    "AveragePopulationPerDistrict": 886667
+  },
+  {
+    "State": "Alaska",
+    "Population": 733391,
+    "Representatives": 1,
+    "Districts": 1,
+    "DistrictSizes": {
+      "1": 1
+    },
+    "DistrictPopulations": {
+      "1": 733391
+    },
+    "PopulationPerMember": 733391,
+    "AveragePopulationPerDistrict": 733391
+  },
+  {
+    "State": "North Dakota",
+    "Population": 779094,
+    "Representatives": 1,
+    "Districts": 1,
+    "DistrictSizes": {
+      "1": 1
+    },
+    "DistrictPopulations": {
+      "1": 779094
+    },
+    "PopulationPerMember": 779094,
+    "AveragePopulationPerDistrict": 779094
+  },
+  {
+    "State": "Vermont",
+    "Population": 643077,
+    "Representatives": 1,
+    "Districts": 1,
+    "DistrictSizes": {
+      "1": 1
+    },
+    "DistrictPopulations": {
+      "1": 643077
+    },
+    "PopulationPerMember": 643077,
+    "AveragePopulationPerDistrict": 643077
+  },
+  {
+    "State": "Wyoming",
+    "Population": 576851,
+    "Representatives": 1,
+    "Districts": 1,
+    "DistrictSizes": {
+      "1": 1
+    },
+    "DistrictPopulations": {
+      "1": 576851
+    },
+    "PopulationPerMember": 576851,
+    "AveragePopulationPerDistrict": 576851
+  },
+  {
+    "State": "Total",
+    "Population": 330759736,
+    "Representatives": 593,
+    "Districts": 111,
+    "DistrictSizes": {},
+    "DistrictPopulations": {},
+    "PopulationPerMember": 557774,
+    "AveragePopulationPerDistrict": 2979817
+  }
+]
