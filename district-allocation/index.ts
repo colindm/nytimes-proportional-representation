@@ -14,16 +14,19 @@ interface ApportionmentResult {
     //** The number of districts by number of representatives */
     DistrictSizes: Record<number, number>;
     //** District population by number of representatives */
-	DistrictPopulations: Record<number, number>;
-	PopulationPerMember: number;
-	AveragePopulationPerDistrict: number;
+    DistrictPopulations: Record<number, number>;
+    PopulationPerMember: number;
+    AveragePopulationPerDistrict: number;
 }
 
 const INCLUDE_DC = false;
 const INCLUDE_PR = false;
 const TOTAL_REPRESENTATIVES = 593;
 
-function calculateDistricts(representatives: number, population: number): [number, Record<number, number>, Record<number, number>] {
+function calculateDistricts(
+    representatives: number,
+    population: number
+): [number, Record<number, number>, Record<number, number>] {
     const districts = Math.max(1, Math.round(representatives / 6));
     const sizes = new Array(7).fill(0);
     let remainingReps = representatives;
@@ -39,7 +42,7 @@ function calculateDistricts(representatives: number, population: number): [numbe
     for (let i = 1; i < sizes.length; i++) {
         if (sizes[i] > 0) {
             sizeObject[i] = sizes[i];
-            popObject[i] = Math.round(population * (i * sizes[i] / representatives) / sizes[i]);
+            popObject[i] = Math.round((population * ((i * sizes[i]) / representatives)) / sizes[i]);
         }
     }
 
@@ -90,8 +93,8 @@ const apportionment = huntingtonHill(parsedData, TOTAL_REPRESENTATIVES);
 
 // Calculate number of districts per state/reps per district and reformat for JSON
 const results: ApportionmentResult[] = Array.from(apportionment, ([state, reps]) => {
-	const stateData = parsedData.find(data => data.state === state)!;
-	const statePopulation = stateData.population;
+    const stateData = parsedData.find((data) => data.state === state)!;
+    const statePopulation = stateData.population;
     const [districts, sizeObject, popObject] = calculateDistricts(reps, statePopulation);
 
     return {
@@ -100,9 +103,9 @@ const results: ApportionmentResult[] = Array.from(apportionment, ([state, reps])
         Representatives: reps,
         Districts: districts,
         DistrictSizes: sizeObject,
-		DistrictPopulations: popObject,
-		PopulationPerMember: Math.round(statePopulation / reps),
-		AveragePopulationPerDistrict: Math.round(statePopulation / districts)
+        DistrictPopulations: popObject,
+        PopulationPerMember: Math.round(statePopulation / reps),
+        AveragePopulationPerDistrict: Math.round(statePopulation / districts)
     };
 });
 
@@ -119,9 +122,9 @@ results.push({
     Representatives: totalReps,
     Districts: totalDistricts,
     DistrictSizes: {},
-	DistrictPopulations: {},
-	PopulationPerMember: Math.round(totalPopulation / totalReps),
-	AveragePopulationPerDistrict: Math.round(totalPopulation / totalDistricts)
+    DistrictPopulations: {},
+    PopulationPerMember: Math.round(totalPopulation / totalReps),
+    AveragePopulationPerDistrict: Math.round(totalPopulation / totalDistricts)
 });
 
 // Write the results to a JSON file
