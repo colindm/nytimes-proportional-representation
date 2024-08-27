@@ -11,7 +11,9 @@ interface ApportionmentResult {
     Population: number;
     Representatives: number;
     Districts: number;
+    //** The number of districts by number of representatives */
     DistrictSizes: Record<number, number>;
+    //** District population by number of representatives */
 	DistrictPopulations: Record<number, number>;
 	PopulationPerMember: number;
 	AveragePopulationPerDistrict: number;
@@ -25,7 +27,6 @@ function calculateDistricts(representatives: number, population: number): [numbe
     const districts = Math.max(1, Math.round(representatives / 6));
     const sizes = new Array(7).fill(0);
     let remainingReps = representatives;
-    let remainingPop = population;
 
     for (let i = 0; i < districts; i++) {
         const size = Math.min(Math.round(remainingReps / (districts - i)), 6);
