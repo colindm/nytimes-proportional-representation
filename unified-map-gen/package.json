@@ -1,0 +1,14 @@
+{
+  "name": "unified-map-gen",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "mapshaper": "^0.6.99"
+  }
+}
