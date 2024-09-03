@@ -27,7 +27,8 @@ function calculateDistricts(
     representatives: number,
     population: number
 ): [number, Record<number, number>, Record<number, number>] {
-    const districts = Math.max(1, Math.round(representatives / 6));
+    // const districts = Math.max(1, Math.round(representatives / 6));
+    const districts = Math.ceil(representatives / 6);
     const sizes = new Array(7).fill(0);
     let remainingReps = representatives;
 
@@ -96,6 +97,13 @@ const results: ApportionmentResult[] = Array.from(apportionment, ([state, reps])
     const stateData = parsedData.find((data) => data.state === state)!;
     const statePopulation = stateData.population;
     const [districts, sizeObject, popObject] = calculateDistricts(reps, statePopulation);
+    
+    let totalPop = 0;
+    for (const [size, count] of Object.entries(sizeObject)) {
+        totalPop += popObject[parseInt(size)] * count;
+    }
+    const calculatedPopulation = totalPop;
+    const diffPop = statePopulation - calculatedPopulation;
 
     return {
         State: state,
@@ -105,7 +113,9 @@ const results: ApportionmentResult[] = Array.from(apportionment, ([state, reps])
         DistrictSizes: sizeObject,
         DistrictPopulations: popObject,
         PopulationPerMember: Math.round(statePopulation / reps),
-        AveragePopulationPerDistrict: Math.round(statePopulation / districts)
+        AveragePopulationPerDistrict: Math.round(statePopulation / districts),
+        calculatedPopulation: calculatedPopulation,
+        differenceInPopulationBetweenCalculatedAndActual: diffPop
     };
 });
 
@@ -128,7 +138,7 @@ results.push({
 });
 
 // Write the results to a JSON file
-const outputJson = JSON.stringify(results, null, 2);
-writeFileSync("./apportionment.json", outputJson);
+const outputJson = JSON.stringify(results, null, 4);
+writeFileSync("./apportionment2.json", outputJson);
 
 console.log("Apportionment complete. Results written to apportionment.json");
