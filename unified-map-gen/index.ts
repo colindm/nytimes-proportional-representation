@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const inputDir = path.join(__dirname, "..", "maps");
 const outputFile = path.join(__dirname, "merged_nyt_districts.geojson");
+
 async function mergeGeoJSONFiles() {
     const files = fs.readdirSync(inputDir);
     const geoJSONFiles = files.filter((file) => file.endsWith(".geojson"));
