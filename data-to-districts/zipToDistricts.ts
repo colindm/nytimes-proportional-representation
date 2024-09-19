@@ -1,58 +1,105 @@
 import { fileURLToPath } from "url";
 import * as fs from "fs";
 import * as path from "path";
+import * as turf from "@turf/turf";
+
+// @ts-ignore
+import mapshaper from "mapshaper";
+import type { FeatureCollection, MultiPolygon } from "geojson";
+import type { ZipToDistrictMap } from "./types";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-type ZipCodeFeature = {
-    type: string;
-    geometry: {
-        type: string;
-        coordinates: number[][][];
-    };
-    properties: {
-        /** Zip Code # */
-        ZCTA5CE20: string;
-    };
-}
-
-type DistrictFeature = {
-    type: string;
-    geometry: {
-        type: string;
-        coordinates: number[][][];
-    };
-    properties: {
-        /** District ID */
-        id: number;
-        /** District Population */
-        Pop20: number;
-    };
-}
-
-type FeatureCollection<T extends DistrictFeature | ZipCodeFeature> = {
-    type: string;
-    features: T[];
-}
-
-type ZipToDistrict = {
-    zipCode: string;
-    state: string;
-    districtId: number;
-}
+const outputFilePath = "./data/zip_to_district.json";
 
 /** Reads and parses a GeoJSON file */
 function readGeoJSON(filePath: string): any {
     const fullPath = path.resolve(__dirname, filePath);
-    const rawData = fs.readFileSync(fullPath, 'utf8');
+    const rawData = fs.readFileSync(fullPath, "utf8");
     return JSON.parse(rawData);
 }
 
-// Read the zip codes GeoJSON file
-const zipCodesGeoJSON: FeatureCollection<ZipCodeFeature> = readGeoJSON('./data/zip_codes.geojson');
+/** A map to store zip code to district mappings */
+const zipToDistrictMap = new Map<string, ZipToDistrictMap>();
 
-// Read the districts GeoJSON file
-const districtsGeoJSON: FeatureCollection<DistrictFeature> = readGeoJSON('./merged_districts.geojson');
+// async function splitZipCodesOnState() {
+//     const zipCodesGeoJSON: FeatureCollection = readGeoJSON("./data/zip_codes.geojson");
+//     const statesGeoJSON: FeatureCollection = readGeoJSON("../unified-map-gen/data/states.geojson");
 
-// Iterate through all the zip 
+//     for (const state of statesGeoJSON.features) {
+        
+//     }
+
+//     // save to new geojson file
+//     const outputGeoJSON = {
+//         type: "FeatureCollection",
+//         features: Array.from(zipToDistrictMap.values()),
+//     };
+//     fs.writeFileSync("./data/zip_codes_by_state.geojson", JSON.stringify(outputGeoJSON, null, 4));
+//     console.log(`File created: ./data/zip_codes_by_state.geojson`);
+// }
+
+async function assignDistrictsToZipGeoJson() {
+    // const cmd = `
+    // -i ./data/zip_codes.geojson name=zipCodes
+    // -i ./data/merged_districts.geojson name=districts
+    // -join districts largest-overlap target=zipCodes
+    // -o ./data/zip_codes_with_districts.geojson
+    // `
+    // TODO: Change small_zip_codes.geojson to zip_codes.geojson
+    const cmd = `
+    -i ./data/zip_codes.geojson name=zipCodes
+    -i ./data/merged_districts.geojson name=districts
+    -each 'id = StateAbbreviation + "-" + id'
+    -join districts calc='overlappedDistricts = collect(id)' target=zipCodes
+    -o ./data/zip_codes_with_districts.geojson
+    `
+
+    await mapshaper.runCommands(cmd);
+
+    fs.writeFileSync(outputFilePath, JSON.stringify(zipToDistrictMap, null, 4));
+    console.log(`File created: ${outputFilePath}`);
+}
+
+function convertZipGeoJsonToZipMap() {
+    const zipCodesGeoJSON: FeatureCollection = readGeoJSON("./data/zip_codes_with_districts.geojson");
+    const districtsGeoJSON: FeatureCollection = readGeoJSON("./data/merged_districts.geojson");
+    const zipToDistrictMap: ZipToDistrictMap = {};
+
+    for (const feature of zipCodesGeoJSON.features) {
+        let districtsOverlapped = feature.properties?.overlappedDistricts;
+        const zipCode = feature.properties?.ZCTA5CE20;
+
+        if (!districtsOverlapped || !zipCode) {
+            console.log(`Skipping due to missing data`);
+            continue;
+        }
+
+        if (!Array.isArray(districtsOverlapped)) {
+            districtsOverlapped = [districtsOverlapped];
+        }
+
+        const districts = districtsOverlapped.map((district: string) => {
+            const [state, districtId] = district.split("-");
+            return {
+                districtId: parseInt(districtId),
+                state,
+                percentage: 100 / districtsOverlapped.length
+            };
+        });
+
+        zipToDistrictMap[zipCode] = { districts };
+    }
+
+    console.log(zipToDistrictMap);
+    return zipToDistrictMap;
+}
+
+async function main() {
+    await assignDistrictsToZipGeoJson();
+    const zipToDistrictMap = convertZipGeoJsonToZipMap();
+    fs.writeFileSync(outputFilePath, JSON.stringify(zipToDistrictMap, null, 4));
+}
+
+main();

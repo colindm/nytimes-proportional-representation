@@ -14,8 +14,6 @@ const statesGeoJsonDir = path.join(__dirname, "data", "states.geojson");
 const outputFile = path.join(__dirname, "merged_nyt_districts.geojson");
 const dataToDistrictsOutput = path.join(__dirname, "..", "data-to-districts", "data", "merged_districts.geojson");
 
-const NON_STATES = ["AS", "GU", "MP", "PR", "VI"];
-
 /** Reads and parses a GeoJSON file */
 function readGeoJSON(filePath: string): any {
     const fullPath = path.resolve(__dirname, filePath);
@@ -92,7 +90,6 @@ async function mergeGeoJSONFiles(outputFile: string, simplify: boolean) {
     for (const file of geoJSONFiles) {
         const fileName = file.split(".")[0];
         const stateAbbreviation = fileName.split(" ")[1];
-        console.log(stateAbbreviation);
 
         // Open the file and add the state abbreviation to each feature
         const geoJSON = readGeoJSON(path.join(inputDir, file));
@@ -115,7 +112,6 @@ async function mergeGeoJSONFiles(outputFile: string, simplify: boolean) {
 
 async function main() {
     const statesWithOnlyOneDistrict = getStatesWithOnlyOneDistrict();
-    console.log(statesWithOnlyOneDistrict);
     await generateEmptyStatesGeoJSON(statesWithOnlyOneDistrict);
 
     mergeGeoJSONFiles(outputFile, true);

@@ -4,11 +4,12 @@ import * as fs from "fs";
 import * as path from "path";
 import { parse } from "csv-parse/sync";
 import { stringify } from "csv-stringify/sync";
+import type { DistrictWeight, ZipToDistrictMap } from "./types";
+import { getStateNameFromAbbr } from "./stateAbbrToName";
 
-/**"ResponseId","response_id","pid3","pid7","pid7_legacy","foreign_born","language","religion","religion_other_text","age","gender","census_region","hispanic","race_ethnicity","household_income","education","zip","state","congress_district","weight","weight_2020","weight_both","assigned_party"
-"R_28CzM4PuJtiOfgV","00100002",1,NA,2,1,3,2,"",37,1,4,1,6,21,8,"91913","CA","CA53",1.75336028820733,NA,NA,"american_labor"
-"R_31vCADQS33ae9bL","00100003",1,NA,1,1,3,2,"",45,2,3,1,1,8,7,"40047","KY","KY02",0.144302170760017,NA,NA,"new_liberal" */
-interface RespondentRow {
+type Party = "progressive" | "new_liberal" | "american_labor" | "growth_and_opp" | "patriot" | "christian_conservative";
+
+type RespondentRow = {
     ResponseId: string;
     response_id: string;
     pid3: number;
@@ -33,21 +34,157 @@ interface RespondentRow {
     weight_both: number;
     assigned_party: string;
 
-    districtNum?: number;
-}
+    districtWeights: DistrictWeight[];
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const inputFile = path.join(__dirname, "data", "df_parties.csv");
-const outputFile = path.join(__dirname, "data", "df_parties_districts.csv");
+const rawRespondentData = path.join(__dirname, "data", "df_parties.csv");
+const respondentDataWithDistricts = path.join(__dirname, "data", "df_parties_districts.json");
 
-const data = fs.readFileSync(inputFile, "utf8");
-const parsedData: RespondentRow[] = parse(data, { columns: true });
+function generateSurveyDataWithDistricts() {
+    const data = fs.readFileSync(rawRespondentData, "utf8");
+    const parsedData: RespondentRow[] = parse(data, { columns: true });
 
-for (const row of parsedData) {
-    row.districtNum = 123;
+    const zipToDistrictMap: ZipToDistrictMap = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "data", "zip_to_district.json"), "utf8")
+    );
+
+    let numDistrictsWithoutZip = 0;
+    let numDistrictsWithZip = 0;
+    for (const row of parsedData) {
+        const zipToDistrictItems = zipToDistrictMap[row.zip];
+        if (!zipToDistrictItems) {
+            numDistrictsWithoutZip++;
+            continue;
+        }
+        numDistrictsWithZip++;
+        row.districtWeights = zipToDistrictItems.districts;
+    }
+
+    console.log(`Num districts without zip: ${numDistrictsWithoutZip}`);
+    console.log(`Num districts with zip: ${numDistrictsWithZip}`);
+
+    const outputData = JSON.stringify(parsedData);
+    fs.writeFileSync(respondentDataWithDistricts, outputData);
 }
 
-const outputData = stringify(parsedData, { header: true });
-fs.writeFileSync(outputFile, outputData);
+function getDistrictCode(stateAbbreviation: string, districtId: string | number) {
+    if (typeof districtId === "number") {
+        return stateAbbreviation + "-" + districtId.toString();
+    }
+    return stateAbbreviation + "-" + districtId;
+}
+
+interface ApportionmentResult {
+    State: string;
+    Districts: number;
+    DistrictSizes: Record<number, number>;
+    DistrictPopulations: Record<number, number>;
+}
+
+function getNumberOfReps(
+    stateAbbreviation: string,
+    districtId: string | number,
+    districtsGeoJson: GeoJSON.FeatureCollection
+) {
+    const districtGeoJsonFeature = districtsGeoJson.features.filter(feature => 
+        feature.properties?.StateAbbreviation === stateAbbreviation && 
+        feature.properties?.id === parseInt(districtId as string)
+    )[0];    
+    if (!districtGeoJsonFeature) {
+        throw new Error(`District not found for ${stateAbbreviation}-${districtId}`);
+    }
+    const districtPop = districtGeoJsonFeature.properties?.Pop20;
+
+    const apportionment = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "..", "district-allocation", "apportionment2.json"), "utf-8")
+    );
+
+    const fullStateName = getStateNameFromAbbr(stateAbbreviation);
+    const stateApportionmentInfo = apportionment.find((d: ApportionmentResult) => d.State === fullStateName);
+
+    const districtSizes = stateApportionmentInfo.DistrictSizes;
+    if (Object.keys(districtSizes).length < 2) {
+        return Object.keys(stateApportionmentInfo.DistrictSizes)[0];
+    }
+    if (!districtPop) {
+        throw new Error ("Population not found for district")
+    }
+
+    // console.log(stateApportionmentInfo);
+    // const district = apportionment.find((d: ApportionmentResult) => d.State === stateAbbreviation);
+    // console.log(district);
+
+    return 12;
+}
+
+function generateDistrictPartyTotals() {
+    const data = fs.readFileSync(respondentDataWithDistricts, "utf8");
+    const parsedData: RespondentRow[] = JSON.parse(data);
+    const districts = fs.readFileSync(path.join(__dirname, "data", "merged_districts.geojson"), "utf8");
+    const parsedDistricts: GeoJSON.FeatureCollection = JSON.parse(districts);
+
+    // Order districts in alphabetical order
+    const sortedDistricts = parsedDistricts.features.sort((a, b) =>
+        a.properties?.StateAbbreviation.localeCompare(b.properties?.StateAbbreviation)
+    );
+
+    const districtPartyTotals: Record<
+        string,
+        {
+            [key in Party]: number;
+        }
+    > = {};
+
+    for (const district of sortedDistricts) {
+        const districtUniqueId = getDistrictCode(district.properties?.StateAbbreviation, district.properties?.id);
+        districtPartyTotals[districtUniqueId] = {
+            progressive: 0,
+            new_liberal: 0,
+            american_labor: 0,
+            growth_and_opp: 0,
+            patriot: 0,
+            christian_conservative: 0
+        };
+
+        for (const row of parsedData) {
+            // TODO: GET RID OF THIS
+            if (!row.districtWeights) continue;
+            const districtCodes: string[] = row.districtWeights.map((district) =>
+                getDistrictCode(district.state, district.districtId)
+            );
+
+            // If the respondent is not in the district
+            if (!districtCodes.includes(districtUniqueId)) continue;
+
+            for (const district of row.districtWeights) {
+                if (district.districtId === district.districtId) {
+                    const party = row.assigned_party as Party;
+                    districtPartyTotals[districtUniqueId][party]++;
+                }
+            }
+
+            // TODO: Fix weighting
+            const party = row.assigned_party as Party;
+            districtPartyTotals[districtUniqueId][party]++;
+        }
+    }
+
+    // Convert it to a CSV where each district and party combo is a row with the count
+    const csvRows = Object.entries(districtPartyTotals).flatMap(([district, parties]) => {
+        const numberOfReps = getNumberOfReps(district.split("-")[0], district.split("-")[1], parsedDistricts);
+        return Object.entries(parties).map(([party, count]) => ({ district, numberOfReps, party, count }));
+    });
+
+    const csvData = stringify(csvRows, { header: true });
+    fs.writeFileSync(path.join(__dirname, "data", "district_party_totals.csv"), csvData);
+}
+
+function main() {
+    // generateSurveyDataWithDistricts();
+    generateDistrictPartyTotals();
+}
+
+main();
