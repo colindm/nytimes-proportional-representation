@@ -11,9 +11,9 @@ interface ApportionmentResult {
     Population: number;
     Representatives: number;
     Districts: number;
-    //** The number of districts by number of representatives */
+    /** The number of districts by number of representatives */
     DistrictSizes: Record<number, number>;
-    //** District population by number of representatives */
+    /** District population by number of representatives */
     DistrictPopulations: Record<number, number>;
     PopulationPerMember: number;
     AveragePopulationPerDistrict: number;
