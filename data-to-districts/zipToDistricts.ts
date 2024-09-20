@@ -1,7 +1,6 @@
 import { fileURLToPath } from "url";
 import * as fs from "fs";
 import * as path from "path";
-import * as turf from "@turf/turf";
 
 // @ts-ignore
 import mapshaper from "mapshaper";
@@ -40,14 +39,26 @@ const zipToDistrictMap = new Map<string, ZipToDistrictMap>();
 //     console.log(`File created: ./data/zip_codes_by_state.geojson`);
 // }
 
+async function assignTractToDistricts() {
+    // const csv = fs.readFileSync("./zipToTract.csv", "utf8");
+    // const rows = csv.split("\n").map((row) => row.split(",").map(cell => cell.trim().replace(/\r$/, '')));
+    // console.log(rows);
+
+    // const tractsGeoJSON: FeatureCollection = readGeoJSON("./data/merged2020Tracts.geojson");
+    // const districtsGeoJSON: FeatureCollection = readGeoJSON("./data/merged_districts.geojson");
+
+    const cmd = `
+    -i ./data/merged2020Tracts.geojson name=tracts
+    -i ./data/merged_districts.geojson name=districts
+    -each 'id = StateAbbreviation + "-" + id'
+    -join districts calc='overlappedDistricts = collect(id)' target=tracts
+    -o ./data/tracts_with_districts.geojson
+    `
+    await mapshaper.runCommands(cmd);
+}
+
 async function assignDistrictsToZipGeoJson() {
-    // const cmd = `
-    // -i ./data/zip_codes.geojson name=zipCodes
-    // -i ./data/merged_districts.geojson name=districts
-    // -join districts largest-overlap target=zipCodes
-    // -o ./data/zip_codes_with_districts.geojson
-    // `
-    // TODO: Change small_zip_codes.geojson to zip_codes.geojson
+    // Use small_zip_codes.geojson for testing instead of zip_codes.geojson
     const cmd = `
     -i ./data/zip_codes.geojson name=zipCodes
     -i ./data/merged_districts.geojson name=districts
@@ -55,11 +66,10 @@ async function assignDistrictsToZipGeoJson() {
     -join districts calc='overlappedDistricts = collect(id)' target=zipCodes
     -o ./data/zip_codes_with_districts.geojson
     `
-
     await mapshaper.runCommands(cmd);
 
-    fs.writeFileSync(outputFilePath, JSON.stringify(zipToDistrictMap, null, 4));
-    console.log(`File created: ${outputFilePath}`);
+    // fs.writeFileSync(outputFilePath, JSON.stringify(zipToDistrictMap, null, 4));
+    // console.log(`File created: ${outputFilePath}`);
 }
 
 function convertZipGeoJsonToZipMap() {
@@ -97,9 +107,11 @@ function convertZipGeoJsonToZipMap() {
 }
 
 async function main() {
-    await assignDistrictsToZipGeoJson();
-    const zipToDistrictMap = convertZipGeoJsonToZipMap();
-    fs.writeFileSync(outputFilePath, JSON.stringify(zipToDistrictMap, null, 4));
+    assignTractToDistricts();
+
+    // await assignDistrictsToZipGeoJson();
+    // const zipToDistrictMap = convertZipGeoJsonToZipMap();
+    // fs.writeFileSync(outputFilePath, JSON.stringify(zipToDistrictMap, null, 4));
 }
 
 main();

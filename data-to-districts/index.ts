@@ -32,7 +32,7 @@ type RespondentRow = {
     weight: number;
     weight_2020: number;
     weight_both: number;
-    assigned_party: string;
+    assigned_party: Party;
 
     districtWeights: DistrictWeight[];
 };
@@ -113,11 +113,27 @@ function getNumberOfReps(
         throw new Error ("Population not found for district")
     }
 
-    // console.log(stateApportionmentInfo);
-    // const district = apportionment.find((d: ApportionmentResult) => d.State === stateAbbreviation);
-    // console.log(district);
+    // find the item in the district population item that is closest to districtPop
+    const districtPopulations = stateApportionmentInfo.DistrictPopulations;
+    const districtPopulationValues: any = Object.values(districtPopulations);
+    const closestDistrictPopulation = districtPopulationValues.reduce((prev: any, curr: any) => {
+        return (Math.abs(curr - districtPop) < Math.abs(prev - districtPop) ? curr : prev);
+    });
 
-    return 12;
+    // Find out if it's the smaller or larger district population number in the district population item
+    // Find out if the closestDistrictPopulation is the smaller or larger of the district populations
+    const smallestPopulation = Math.min(...districtPopulationValues);
+    const largestPopulation = Math.max(...districtPopulationValues);
+    const isSmaller = Math.abs(closestDistrictPopulation - smallestPopulation) < Math.abs(closestDistrictPopulation - largestPopulation);
+
+    const districtSizeOptions = Object.keys(districtSizes).map(Number).sort((a, b) => a - b);
+    const districtSizeOptionToUse = isSmaller ? districtSizeOptions[0] : districtSizeOptions[districtSizeOptions.length - 1];
+
+    if (fullStateName === "Arizona") {
+        console.log(fullStateName, districtPop, isSmaller, districtSizeOptions, districtSizeOptionToUse);
+    }
+
+    return districtSizeOptionToUse;
 }
 
 function generateDistrictPartyTotals() {
@@ -159,16 +175,13 @@ function generateDistrictPartyTotals() {
             // If the respondent is not in the district
             if (!districtCodes.includes(districtUniqueId)) continue;
 
-            for (const district of row.districtWeights) {
-                if (district.districtId === district.districtId) {
-                    const party = row.assigned_party as Party;
-                    districtPartyTotals[districtUniqueId][party]++;
-                }
-            }
+            for (const districtWeightItem of row.districtWeights) {
+                if (districtWeightItem.districtId !== district.properties?.id) continue;
+                const party = row.assigned_party as Party;
+                const numberOfVotesToAdd = districtWeightItem.percentage / 100;
 
-            // TODO: Fix weighting
-            const party = row.assigned_party as Party;
-            districtPartyTotals[districtUniqueId][party]++;
+                districtPartyTotals[districtUniqueId][party] += numberOfVotesToAdd;
+            }
         }
     }
 

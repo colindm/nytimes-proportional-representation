@@ -10,10 +10,10 @@ Takes a CSV file with respondent data and adds a column for the district that ea
 
 Generates a GeoJSON file with all the state district maps combined into one GeoJSON file.
 
-## District Allocation
+## district-allocation
 
 Determines how many districts each state should have and how many representatives each district should have.
 
-## Maps
+## maps
 
 The raw GeoJSON files from Redistricter for each states new maps.
